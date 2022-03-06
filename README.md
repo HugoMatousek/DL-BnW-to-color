@@ -7,5 +7,6 @@ The basic idea is to use LAB channels. Namely, predict the A and B channels from
 
 Several models and datasets will be used.
 
+As of right now, the project is ready to download and preprocess data. Namely, it downloads a dataset of landscape images and flicker8k. At the moment, it outputs X and Y matrices (0-255 floats) consting of the corresponding LAP channels in the correct shape.
 
 By Hugo Matousek
