@@ -58,7 +58,11 @@ As a part of the preprocessing, I made sure that the images were resized to this
 
 ### Model 1
 As already mentioned, the first model is a 2D convolutional autoencoder. I tried different variations, a different number of the convolutional layers, different parameters for each layer, and different activation functions and optimizers. In the end, the model architecture in the image below proved to be the best. For hidden layers, I used `relu`, and for the last layer, I used `tanh` as the `ab` channels have values in the `-128 to 128` range. As the optimizer, `Adam` proved to be the best thanks to its adaptive learning rate. The model has 4,756,770 trainable parameters. 
-[image later]
+
+<details>
+  <summary>Model #1 architecture</summary>
+  ![model-1](1_model.png)
+</details>
 
 ### Model 2
 I decided to keep the most from the first model in the second one. However, I changed some of the layers and added new ones. The most significant change, however, is the addition of the fusion layer to the bottleneck of the autoencoder. I have tried a could of pre-trained networks (such as `InceptionV3` or `MobileNet`) but ended up using `InceptionResNetV2`. In the final version of the model, I take the input image and use its `224x224` version as an input for the encoder part of the model. At the same time, however, I also resize the image to `299x299` (InceptionResNetV2 default resolution), repeat the vector three times (as the model requires three channels), preprocess it accordingly, and send it to the `InceptionResNetV2` model. In the fusion layer, I take its output, and after repeating the vectors according to the needed resolution, I reshape it and merge it with the encoder output. This is then convoluted and sent to the decoder. I tried variations of the fusion layer, but most of them proved to either completely destroy the model or to provide no benefit. The `InceptionResNetV2` part of the network is not trainable, so the resultant model has 7,075,922 trainable parameters. You can see its architecture below.
